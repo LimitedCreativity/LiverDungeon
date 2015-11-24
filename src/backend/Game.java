@@ -17,7 +17,6 @@ public class Game
     private Input input;
 
     private Level currentLevel;
-    private Player player;
     private ArrayList<Actor> actors;
 
     public Game(Display display, Input input)
@@ -30,9 +29,7 @@ public class Game
 
     private void initGame()
     {
-        currentLevel = new Level(25,100);
-        player = new Player(100,100,"Penis");
-        actors = new ArrayList<Actor>();
+        currentLevel = new Level();
     }
 
     public void start()
@@ -53,7 +50,7 @@ public class Game
                 step();
                 lag -= TIME_PER_UPDATE;
 
-                display.updateActors(player, actors);
+                display.updateActors(currentLevel.getPlayer(), currentLevel.getActors());
             }
 
         }
@@ -64,6 +61,12 @@ public class Game
     {
         CommandState commandState = input.getPlayerCommandState();
 
+        if(commandState.NEW_LEVEL)
+        {
+            currentLevel = new Level();
+            display.initLevel(currentLevel);
+        }
+
         int horizontalDirection = 0, verticalDirection = 0;
 
         /* TODO: give actors a direction, then just update players direction */
@@ -71,7 +74,7 @@ public class Game
         {
             verticalDirection = 1;
         }
-        if (commandState.MOVE_UP)
+        else if (commandState.MOVE_UP)
         {
             verticalDirection = -1;
         }
@@ -79,21 +82,14 @@ public class Game
         {
             horizontalDirection = 1;
         }
-        if(commandState.MOVE_LEFT)
+        else if(commandState.MOVE_LEFT)
         {
             horizontalDirection = -1;
         }
 
-        int possibleX = player.getX() + player.getMoveSpeed()*horizontalDirection;
-        int possibleY = player.getY() + player.getMoveSpeed()*verticalDirection;
-        if (possibleX > 0 && possibleX < (currentLevel.getWidth()-1)*Tile.SIZE)
-        {
-            player.setX(possibleX);
-        }
-        if (possibleY > 0 && possibleY < (currentLevel.getHeight()-1)*Tile.SIZE)
-        {
-            player.setY(possibleY);
-        }
+        currentLevel.getPlayer().move(horizontalDirection, verticalDirection, currentLevel);
+
+
 
     }
 }

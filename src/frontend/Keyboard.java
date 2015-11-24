@@ -62,6 +62,9 @@ public class Keyboard implements Input, KeyListener
             case KeyEvent.VK_RIGHT:
                 cmdState.MOVE_RIGHT = value;
                 return;
+            case KeyEvent.VK_F5:
+                cmdState.NEW_LEVEL = value;
+                return;
             case KeyEvent.VK_ESCAPE:
                 System.exit(0);
         }

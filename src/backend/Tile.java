@@ -7,7 +7,7 @@ public class Tile
 {
     public static final int SIZE = 25;
     
-    public final Type type;
+    public Type type;
     
     public Tile(Type type)
     {
