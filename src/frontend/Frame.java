@@ -29,7 +29,7 @@ public class Frame extends JFrame implements Display
 
     //  Frame Constants
     private static final String FRAME_TITLE = "Liver Dungeon: Kill things";
-    private static final int SCALE = 2;
+    private static final int SCALE = getScreenScale() - 1;
     private static final int FRAME_WIDTH = VIEW_WIDTH*Tile.SIZE*SCALE,
             FRAME_HEIGHT = FRAME_WIDTH;
     private static final int FRAME_X = (SCREEN_WIDTH - FRAME_WIDTH) / 2,
@@ -50,11 +50,19 @@ public class Frame extends JFrame implements Display
     {
         this.setTitle(FRAME_TITLE);
         this.setResizable(false);
+        this.setUndecorated(true);
         this.setLayout(new FlowLayout());
         this.setBounds(FRAME_X, FRAME_Y, FRAME_WIDTH, FRAME_HEIGHT);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.addKeyListener(keyboard);
         this.setVisible(true);
+    }
+
+    private static int getScreenScale()
+    {
+        if(SCREEN_WIDTH < SCREEN_HEIGHT)
+            return SCREEN_WIDTH / VIEW_WIDTH / Tile.SIZE;
+        else return SCREEN_HEIGHT / VIEW_HEIGHT / Tile.SIZE;
     }
 
     private void initViewImage()
