@@ -12,6 +12,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.Buffer;
 import java.util.ArrayList;
 
 /**
@@ -28,14 +29,14 @@ public class Frame extends JFrame implements Display
 
     //  Frame Constants
     private static final String FRAME_TITLE = "Liver Dungeon: Kill things";
-    private static final int FRAME_WIDTH = VIEW_WIDTH*Tile.SIZE*3,
+    private static final int SCALE = 3;
+    private static final int FRAME_WIDTH = VIEW_WIDTH*Tile.SIZE*SCALE,
             FRAME_HEIGHT = FRAME_WIDTH;
     private static final int FRAME_X = (SCREEN_WIDTH - FRAME_WIDTH) / 2,
             FRAME_Y = (SCREEN_HEIGHT - FRAME_HEIGHT) / 2;
 
     //  Images
     private static final String IMG_DIR = "img/";
-    private static final int TILE_SIZE = FRAME_WIDTH / VIEW_WIDTH;
     private BufferedImage levelImage, viewImage;
     private Graphics levelGraphics, viewGraphics;
 
@@ -64,19 +65,16 @@ public class Frame extends JFrame implements Display
 
     private void initLevelImage(int width, int height)
     {
-        levelImage = new BufferedImage(width*TILE_SIZE, height*TILE_SIZE, BufferedImage.TYPE_INT_ARGB);
+        levelImage = new BufferedImage(width*Tile.SIZE, height*Tile.SIZE, BufferedImage.TYPE_INT_ARGB);
         levelGraphics = levelImage.getGraphics();
     }
 
     public void paint(Graphics g)
     {
-        g.setColor(Color.BLACK);
-        g.fillRect(0,0,FRAME_WIDTH, FRAME_HEIGHT);
-
         if(viewImage == null)
-            initViewImage();
+            return;
 
-        g.drawImage(viewImage,0,0,null);
+        g.drawImage(getScaledImage(viewImage),0,0,null);
     }
 
     private BufferedImage getImage(String file)
@@ -85,7 +83,6 @@ public class Frame extends JFrame implements Display
 
         try {
             image = ImageIO.read(new File(file));
-            image = getScaledImage(image);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -94,7 +91,7 @@ public class Frame extends JFrame implements Display
 
     private BufferedImage getScaledImage(BufferedImage src)
     {
-        int finalh = TILE_SIZE, finalw = TILE_SIZE;
+        int finalh = src.getHeight()*SCALE, finalw = src.getHeight()*SCALE;
         BufferedImage resizedImg = new BufferedImage(finalw, finalh, BufferedImage.TRANSLUCENT);
         Graphics2D g2 = resizedImg.createGraphics();
         g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
@@ -113,26 +110,47 @@ public class Frame extends JFrame implements Display
             {
                 Tile tile = level.getTile(x,y);
                 String filepath = IMG_DIR + ( (tile.type == Tile.Type.WALL) ? "wall.png" : "floor.png");
-
-                levelGraphics.drawImage(getImage(filepath),x*TILE_SIZE, y*TILE_SIZE, null);
+                levelGraphics.drawImage(getImage(filepath),x*Tile.SIZE, y*Tile.SIZE, null);
             }
     }
 
     @Override
     public void updateActors(Player player, ArrayList<Actor> actors)
     {
+        //  Ensure viewImage is initialized
+        if(viewImage == null)
+            initViewImage();
+
         //  Get player's location
         int x = player.getX();
         int y = player.getY();
 
         //  Calculate coordinates in levelImage to grab
+        int leftX = (x - (Tile.SIZE * VIEW_WIDTH)/2 );
+        int topY = (y - (Tile.SIZE * VIEW_HEIGHT)/2 );
+        int rightBoundary = levelImage.getWidth() - (VIEW_WIDTH * Tile.SIZE);
+        int bottomBoundary = levelImage.getHeight() - (VIEW_HEIGHT * Tile.SIZE);
+
+        if(leftX < 0)
+            leftX = 0;
+        if(topY < 0)
+            topY = 0;
+
+        if(leftX > rightBoundary)
+            leftX = rightBoundary;
+        if(topY > bottomBoundary)
+            topY = bottomBoundary;
 
         //  Draw levelImage on viewImage
+        BufferedImage levelSubImage = levelImage.getSubimage(leftX,topY,VIEW_WIDTH*Tile.SIZE,VIEW_HEIGHT*Tile.SIZE);
+        viewGraphics.drawImage(levelSubImage,0,0,null);
 
         //  Filter viewable actors
 
         //  Draw viewable actors over viewImage
+        viewGraphics.drawImage(getImage(IMG_DIR+"player.png"),x-leftX,y-topY,null);
 
         //  Repaint
+        repaint();
     }
 }
