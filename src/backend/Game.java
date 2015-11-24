@@ -33,7 +33,7 @@ public class Game
 
     public void start()
     {
-        display.initLevel(world.getCurrentLevel());
+        this.initLevel();
 
         long previous = System.currentTimeMillis();
         long lag = 0;
@@ -63,7 +63,7 @@ public class Game
         if(commandState.NEW_LEVEL)
         {
             world.resetCurrentLevel();
-            display.initLevel(world.getCurrentLevel());
+            this.initLevel();
         }
 
         int horizontalDirection = 0, verticalDirection = 0;
@@ -88,7 +88,16 @@ public class Game
 
         world.getPlayer().move(horizontalDirection, verticalDirection, world.getCurrentLevel());
 
+        if(world.getPlayer().isCollidedWith(world.getExit()))
+        {
+            world.nextLevel();
+            this.initLevel();
+        }
 
+    }
 
+    private void initLevel()
+    {
+        display.initLevel(world.getLevelNumber(), world.getCurrentLevel());
     }
 }

@@ -11,6 +11,6 @@ import java.util.ArrayList;
  */
 public interface Display
 {
-    public void initLevel(Level level);
+    public void initLevel(int num, Level level);
     public void updateActors(Player player, ArrayList<Actor> actors);
 }

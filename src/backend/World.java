@@ -1,6 +1,7 @@
 package backend;
 
 import backend.actors.Actor;
+import backend.actors.Item;
 import backend.actors.Player;
 
 import java.util.ArrayList;
@@ -27,6 +28,12 @@ public class World
     public void nextLevel()
     {
         currentLevel++;
+
+        if(currentLevel == NUM_LEVELS)
+        {
+            System.out.println("You win!");
+            System.exit(0);
+        }
     }
 
     public Level getCurrentLevel()
@@ -48,6 +55,11 @@ public class World
     public Player getPlayer()
     {
         return getCurrentLevel().getPlayer();
+    }
+
+    public Item getExit()
+    {
+        return getCurrentLevel().getExit();
     }
 
     public ArrayList<Actor> getActors()

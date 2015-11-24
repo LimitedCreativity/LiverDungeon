@@ -1,13 +1,14 @@
 package backend.actors;
 
 import backend.Location;
+import backend.Tile;
 
 /**
  * Created by ryan on 11/23/15.
  */
 public abstract class Actor
 {
-    protected int x, y;
+    protected int x, y, size = Tile.SIZE;
 
     public Actor(Location loc) {
         this.x = loc.getX();
@@ -37,5 +38,25 @@ public abstract class Actor
     public void setY(int y)
     {
         this.y = y;
+    }
+
+    public boolean isCollidedWith(Actor actor)
+    {
+        int leftX = this.getX(), rightX = leftX + size;
+        int topY = this.getY(), bottomY = topY + size;
+
+        int actorLeftX = actor.getX(), actorRightX = actorLeftX + size;
+        int actorTopY = actor.getY(), actorBottomY = actorTopY + size;
+
+        if( ( leftX > actorLeftX && leftX < actorRightX ) ||
+                (rightX < actorRightX && rightX > actorLeftX))
+        {
+            if(topY > actorTopY && topY < actorBottomY)
+                return true;
+            if(bottomY < actorBottomY && bottomY > actorTopY)
+                return true;
+        }
+
+        return false;
     }
 }
