@@ -6,10 +6,12 @@ package backend.actors;
 public abstract class Actor
 {
     protected int x, y;
+    protected int moveSpeed;
     
-    public Actor(int x, int y) {
+    public Actor(int x, int y, int moveSpeed) {
         this.x = x;
         this.y = y;
+        this.moveSpeed = moveSpeed;
     }
     
     public int getX()
@@ -31,4 +33,6 @@ public abstract class Actor
     {
         this.y = y;
     }
+
+    public int getMoveSpeed(){return moveSpeed;}
 }

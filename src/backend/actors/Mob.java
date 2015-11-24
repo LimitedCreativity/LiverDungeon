@@ -8,7 +8,7 @@ public abstract class Mob extends Actor
 
     public Mob(int x, int y)
     {
-        super(x, y);
+        super(x, y, 0);
     }
 
 }
