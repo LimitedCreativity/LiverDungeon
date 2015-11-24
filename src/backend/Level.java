@@ -16,7 +16,7 @@ public class Level
 
     public Level()
     {
-        int minSize = 25, maxSize = 50, diff = maxSize - minSize;
+        int minSize = 16, maxSize = 16, diff = maxSize - minSize;
         int randW = (int)(Math.random() * diff) + minSize;
         int randH = (int)(Math.random() * diff) + minSize;
 

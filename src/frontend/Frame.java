@@ -25,22 +25,22 @@ public class Frame extends JFrame implements Display
             SCREEN_HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().height;
 
     //  View constants
-    private static final int VIEW_WIDTH = 25, VIEW_HEIGHT = 25,
+    private static final int VIEW_WIDTH = 16, VIEW_HEIGHT = 9,
             PIXEL_WIDTH = VIEW_WIDTH * Tile.SIZE,
             PIXEL_HEIGHT = VIEW_HEIGHT * Tile.SIZE;
 
     //  Frame Constants
     private static final String FRAME_TITLE = "Liver Dungeon: Kill things";
-    private static final int SCALE = 1;//getScreenScale() - 1;
+    private static final int SCALE = getScreenScale()-1;
     private static final int FRAME_WIDTH = VIEW_WIDTH*Tile.SIZE*SCALE,
-            FRAME_HEIGHT = FRAME_WIDTH;
+            FRAME_HEIGHT = VIEW_HEIGHT*Tile.SIZE*SCALE;
     private static final int FRAME_X = (SCREEN_WIDTH - FRAME_WIDTH) / 2,
             FRAME_Y = (SCREEN_HEIGHT - FRAME_HEIGHT) / 2;
     private static final boolean FRAME_UNDECORATED = true;
 
     //  Images
     private static final String IMG_DIR = "img/", ITEM_DIR = "items/", ENEMY_DIR = "enemies/", TILE_DIR = "tiles/";
-    private BufferedImage levelImage, viewImage;
+    private BufferedImage levelImage, viewImage, scaledImage;
     private Graphics levelGraphics, viewGraphics;
 
 
@@ -83,10 +83,10 @@ public class Frame extends JFrame implements Display
 
     public void paint(Graphics g)
     {
-        if(viewImage == null)
+        if(scaledImage == null)
             return;
 
-        g.drawImage(getScaledImage(viewImage),0,0,null);
+        g.drawImage(scaledImage,0,0,null);
     }
 
     private BufferedImage getImage(Actor a)
@@ -128,7 +128,7 @@ public class Frame extends JFrame implements Display
 
     private BufferedImage getScaledImage(BufferedImage src)
     {
-        int finalh = src.getHeight()*SCALE, finalw = src.getHeight()*SCALE;
+        int finalh = src.getHeight()*SCALE, finalw = src.getWidth()*SCALE;
         BufferedImage resizedImg = new BufferedImage(finalw, finalh, BufferedImage.TRANSLUCENT);
         Graphics2D g2 = resizedImg.createGraphics();
         g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
@@ -149,6 +149,8 @@ public class Frame extends JFrame implements Display
                 String filepath = IMG_DIR + TILE_DIR + ( (tile.type == Tile.Type.WALL) ? "wall.png" : "floor.png");
                 levelGraphics.drawImage(getImage(filepath),x*Tile.SIZE, y*Tile.SIZE, null);
             }
+
+        this.setTitle("Liver Dungeon: " + level.getPlayer().name);
     }
 
     @Override
@@ -202,6 +204,8 @@ public class Frame extends JFrame implements Display
         {
             viewGraphics.drawImage(getImage(a), a.getX() - leftX, a.getY() - topY, null);
         }
+
+        scaledImage = getScaledImage(viewImage);
 
         //  Repaint
         repaint();

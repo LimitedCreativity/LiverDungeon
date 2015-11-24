@@ -12,12 +12,11 @@ import java.util.logging.*;
  */
 public class Game
 {
-    private static final long TIME_PER_UPDATE = 16L;
+    private static final long TIME_PER_UPDATE = 15L;
     private Display display;
     private Input input;
 
-    private Level currentLevel;
-    private ArrayList<Actor> actors;
+    private World world;
 
     public Game(Display display, Input input)
     {
@@ -29,12 +28,12 @@ public class Game
 
     private void initGame()
     {
-        currentLevel = new Level();
+        world = new World();
     }
 
     public void start()
     {
-        display.initLevel(currentLevel);
+        display.initLevel(world.getCurrentLevel());
 
         long previous = System.currentTimeMillis();
         long lag = 0;
@@ -50,9 +49,9 @@ public class Game
                 step();
                 lag -= TIME_PER_UPDATE;
 
-                display.updateActors(currentLevel.getPlayer(), currentLevel.getActors());
             }
 
+            display.updateActors(world.getPlayer(), world.getActors());
         }
 
     }
@@ -63,8 +62,8 @@ public class Game
 
         if(commandState.NEW_LEVEL)
         {
-            currentLevel = new Level();
-            display.initLevel(currentLevel);
+            world.resetCurrentLevel();
+            display.initLevel(world.getCurrentLevel());
         }
 
         int horizontalDirection = 0, verticalDirection = 0;
@@ -87,7 +86,7 @@ public class Game
             horizontalDirection = -1;
         }
 
-        currentLevel.getPlayer().move(horizontalDirection, verticalDirection, currentLevel);
+        world.getPlayer().move(horizontalDirection, verticalDirection, world.getCurrentLevel());
 
 
 
