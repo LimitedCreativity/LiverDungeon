@@ -56,11 +56,11 @@ public class Game
 
     public void step()
     {
-        //  input
         CommandState commandState = input.getPlayerCommandState();
 
-        int horizontalDirection, verticalDirection;
+        int horizontalDirection = 0, verticalDirection = 0;
 
+        /* TODO: give actors a direction, then just update players direction */
         if(commandState.MOVE_DOWN)
         {
             verticalDirection = 1;
@@ -77,9 +77,17 @@ public class Game
         {
             horizontalDirection = -1;
         }
-        //  logic
 
-        //  output
+        int possibleX = player.getX() + player.getMoveSpeed()*horizontalDirection;
+        int possibleY = player.getY() + player.getMoveSpeed()*verticalDirection;
+        if (possibleX > 0 && possibleX < currentLevel.getWidth())
+        {
+            player.setX(possibleX);
+        }
+        if (possibleY > 0 && possibleY < currentLevel.getHeight())
+        {
+            player.setY(possibleY);
+        }
 
     }
 }
