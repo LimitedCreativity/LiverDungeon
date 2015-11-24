@@ -21,11 +21,11 @@ public class Keyboard implements Input, KeyListener
     @Override
     public CommandState getPlayerCommandState()
     {
-        CommandState retval = cmdState;
+//        CommandState temp = cmdState;
+//
+//        cmdState = new CommandState();
 
-        cmdState = new CommandState();
-
-        return retval;
+        return cmdState;
     }
 
     @Override
@@ -34,25 +34,34 @@ public class Keyboard implements Input, KeyListener
     @Override
     public void keyPressed(KeyEvent keyEvent)
     {
-        switch(keyEvent.getKeyCode())
-        {
-            case KeyEvent.VK_W:
-            case KeyEvent.VK_UP:
-                cmdState.MOVE_UP = true;
-            case KeyEvent.VK_S:
-            case KeyEvent.VK_DOWN:
-                cmdState.MOVE_DOWN = true;
-            case KeyEvent.VK_A:
-            case KeyEvent.VK_LEFT:
-                cmdState.MOVE_LEFT = true;
-            case KeyEvent.VK_D:
-            case KeyEvent.VK_RIGHT:
-                cmdState.MOVE_RIGHT = true;
-        }
+        setCommand(keyEvent,true);
     }
 
     @Override
     public void keyReleased(KeyEvent keyEvent){
+        setCommand(keyEvent,false);
+    }
 
+    public void setCommand(KeyEvent keyEvent, boolean value)
+    {
+        switch(keyEvent.getKeyCode())
+        {
+            case KeyEvent.VK_W:
+            case KeyEvent.VK_UP:
+                cmdState.MOVE_UP = value;
+                return;
+            case KeyEvent.VK_S:
+            case KeyEvent.VK_DOWN:
+                cmdState.MOVE_DOWN = value;
+                return;
+            case KeyEvent.VK_A:
+            case KeyEvent.VK_LEFT:
+                cmdState.MOVE_LEFT = value;
+                return;
+            case KeyEvent.VK_D:
+            case KeyEvent.VK_RIGHT:
+                cmdState.MOVE_RIGHT = value;
+                return;
+        }
     }
 }

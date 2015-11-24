@@ -29,7 +29,7 @@ public class Frame extends JFrame implements Display
 
     //  Frame Constants
     private static final String FRAME_TITLE = "Liver Dungeon: Kill things";
-    private static final int SCALE = 3;
+    private static final int SCALE = 2;
     private static final int FRAME_WIDTH = VIEW_WIDTH*Tile.SIZE*SCALE,
             FRAME_HEIGHT = FRAME_WIDTH;
     private static final int FRAME_X = (SCREEN_WIDTH - FRAME_WIDTH) / 2,
@@ -43,16 +43,17 @@ public class Frame extends JFrame implements Display
 
     public Frame(Keyboard keyboard)
     {
-        this.initFrame();
+        this.initFrame(keyboard);
     }
 
-    private void initFrame()
+    private void initFrame(Keyboard keyboard)
     {
         this.setTitle(FRAME_TITLE);
         this.setResizable(false);
         this.setLayout(new FlowLayout());
         this.setBounds(FRAME_X, FRAME_Y, FRAME_WIDTH, FRAME_HEIGHT);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.addKeyListener(keyboard);
         this.setVisible(true);
     }
 
@@ -126,8 +127,8 @@ public class Frame extends JFrame implements Display
         int y = player.getY();
 
         //  Calculate coordinates in levelImage to grab
-        int leftX = (x - (Tile.SIZE * VIEW_WIDTH)/2 );
-        int topY = (y - (Tile.SIZE * VIEW_HEIGHT)/2 );
+        int leftX = (x - (Tile.SIZE * (VIEW_WIDTH)/2 ) + 12);
+        int topY = (y - (Tile.SIZE * (VIEW_HEIGHT)/2 ) + 12);
         int rightBoundary = levelImage.getWidth() - (VIEW_WIDTH * Tile.SIZE);
         int bottomBoundary = levelImage.getHeight() - (VIEW_HEIGHT * Tile.SIZE);
 

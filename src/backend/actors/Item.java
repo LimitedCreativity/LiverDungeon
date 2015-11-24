@@ -9,7 +9,7 @@ public class Item extends Actor
     
     public Item(int x, int y, Type type)
     {
-        super(x, y, 0);
+        super(x, y);
         this.type = type;
     }
 

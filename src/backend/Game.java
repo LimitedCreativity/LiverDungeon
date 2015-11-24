@@ -12,7 +12,7 @@ import java.util.logging.*;
  */
 public class Game
 {
-    private static final long TIME_PER_UPDATE = 5L;
+    private static final long TIME_PER_UPDATE = 16L;
     private Display display;
     private Input input;
 
@@ -24,32 +24,38 @@ public class Game
     {
         this.display = display;
         this.input = input;
+        initGame();
+        start();
     }
 
     private void initGame()
     {
-        player = new Player(0,0,"");
+        currentLevel = new Level(25,100);
+        player = new Player(100,100,"Penis");
         actors = new ArrayList<Actor>();
     }
 
     public void start()
     {
+        display.initLevel(currentLevel);
+
         long previous = System.currentTimeMillis();
         long lag = 0;
         while(true)
         {
             long current = System.currentTimeMillis();
-            long elasped = current - previous;
+            long elapsed = current - previous;
             previous = current;
-            lag += elasped;
+            lag += elapsed;
 
             while (lag > TIME_PER_UPDATE)
             {
                 step();
                 lag -= TIME_PER_UPDATE;
+
+                display.updateActors(player, actors);
             }
 
-            display.updateActors(player, actors);
         }
 
     }
@@ -65,7 +71,7 @@ public class Game
         {
             verticalDirection = 1;
         }
-        else if (commandState.MOVE_UP)
+        if (commandState.MOVE_UP)
         {
             verticalDirection = -1;
         }
@@ -73,18 +79,18 @@ public class Game
         {
             horizontalDirection = 1;
         }
-        else if(commandState.MOVE_RIGHT)
+        if(commandState.MOVE_LEFT)
         {
             horizontalDirection = -1;
         }
 
         int possibleX = player.getX() + player.getMoveSpeed()*horizontalDirection;
         int possibleY = player.getY() + player.getMoveSpeed()*verticalDirection;
-        if (possibleX > 0 && possibleX < currentLevel.getWidth())
+        if (possibleX > 0 && possibleX < (currentLevel.getWidth()-1)*Tile.SIZE)
         {
             player.setX(possibleX);
         }
-        if (possibleY > 0 && possibleY < currentLevel.getHeight())
+        if (possibleY > 0 && possibleY < (currentLevel.getHeight()-1)*Tile.SIZE)
         {
             player.setY(possibleY);
         }
