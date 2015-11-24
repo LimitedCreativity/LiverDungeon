@@ -59,9 +59,7 @@ public class Item extends Actor
                 }
             }
 
-            System.out.println(tps.size());
             tps.remove(this);
-            System.out.println(tps.size());
 
             int rand = (int) Math.random() * tps.size();
 

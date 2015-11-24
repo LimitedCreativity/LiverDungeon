@@ -111,6 +111,22 @@ public class Game
         }
         world.getActors().removeAll(goldToRemove);
 
+        //  Check for enemies
+        for(Actor a : world.getActors())
+        {
+            if(a instanceof Enemy)
+            {
+                Enemy e = (Enemy)a;
+
+                if(world.getPlayer().isCollidedWith(e))
+                {
+                    world.resetCurrentLevel();
+                    this.initLevel();
+                    break;
+                }
+            }
+        }
+
         //  Check for teleporters
         boolean onTeleporter = false;
         for(Actor a : world.getActors())
