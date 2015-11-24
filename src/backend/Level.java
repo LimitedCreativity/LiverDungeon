@@ -13,20 +13,21 @@ public class Level
     
     public Level(int width, int height)
     {
-        tiles = new Tile[height][width];
+        tiles = new Tile[width][height];
         
         generateRandomLevel();
         
         actors = new ArrayList<>();
     }
     
-    private void generateRandomLevel() {
-        for(int i=0; i<getHeight(); i++)
+    private void generateRandomLevel()
+    {
+        for(int i=0; i<getWidth(); i++)
         {
-            for(int j=0; j<getWidth(); j++)
+            for(int j=0; j<getHeight(); j++)
             {
                 //TEMP - fills the level with floor tiles surrounded by wall
-                if(i == 0 || j == 0 || i == getHeight()-1 || j == getWidth()-1) 
+                if(i == 0 || j == 0 || i == getWidth()-1 || j == getHeight()-1) 
                     tiles[i][j] = new Tile(Tile.Type.WALL);
                 else
                     tiles[i][j] = new Tile(Tile.Type.FLOOR);
@@ -41,16 +42,16 @@ public class Level
     
     public int getHeight()
     {
-        return tiles.length;
+        return tiles[0].length;
     }
     
     public int getWidth()
     {
-        return tiles[0].length;
+        return tiles.length;
     }
     
     public Tile getTile(int x, int y)
     {
-        return tiles[y][x];
+        return tiles[x][y];
     }
 }
