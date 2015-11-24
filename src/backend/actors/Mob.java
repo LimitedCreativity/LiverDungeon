@@ -5,10 +5,13 @@ package backend.actors;
  */
 public abstract class Mob extends Actor
 {
+    protected int moveSpeed;
 
-    public Mob(int x, int y)
+    public Mob(int x, int y, int moveSpeed)
     {
-        super(x, y, 0);
+        super(x, y);
+        this.moveSpeed = moveSpeed;
     }
 
+    public int getMoveSpeed(){return moveSpeed;}
 }
