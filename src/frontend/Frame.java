@@ -114,6 +114,8 @@ public class Frame extends JFrame implements Display
                 filepath += "exit.png";
             else if(i.type == Item.Type.GOLD)
                 filepath += "gold.png";
+            else if(i.type == Item.Type.TELEPORTER)
+                filepath += "teleporter.png";
         }
         else
             filepath += "missing.png";

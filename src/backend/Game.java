@@ -111,6 +111,26 @@ public class Game
         }
         world.getActors().removeAll(goldToRemove);
 
+        //  Check for teleporters
+        boolean onTeleporter = false;
+        for(Actor a : world.getActors())
+        {
+            if(a instanceof Item && ((Item)a).type == Item.Type.TELEPORTER)
+            {
+                Item i = (Item)a;
+
+                if(world.getPlayer().isCollidedWith(i))
+                {
+                    onTeleporter = true;
+                    i.interact(world.getCurrentLevel(),world.getPlayer());
+                    break;
+                }
+            }
+        }
+
+        if(!onTeleporter)
+            world.getCurrentLevel().teleportersEnabled = true;
+
         //  Check for exit
         if(world.getPlayer().isCollidedWith(world.getExit()))
         {

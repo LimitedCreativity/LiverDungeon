@@ -14,6 +14,7 @@ public class Level
 {
     private Tile[][] tiles;
     private ArrayList<Actor> actors;
+    public boolean teleportersEnabled;
 
     public Level()
     {
@@ -33,6 +34,7 @@ public class Level
     {
         tiles = new Tile[width][height];
         actors = new ArrayList<>();
+        teleportersEnabled = true;
 
         generateRandomLevel();
     }
@@ -57,6 +59,7 @@ public class Level
         scatterGold();
         addPlayer();
         addEnemies();
+        addTeleporters();
         addExit();
     }
     
@@ -88,11 +91,22 @@ public class Level
         actors.add(new Player(getEmptyLocation(), "Player"));
     }
 
-    private void addEnemies() {
+    private void addEnemies()
+    {
         int numEnemies = this.getWidth()*this.getHeight()/200;
 
         for(int i = 0; i < numEnemies; i++)
             actors.add(new Enemy(getEmptyLocation()));
+    }
+
+    private void addTeleporters()
+    {
+        int numTeleporters = 2;
+
+        for(int i = 0; i < numTeleporters; i++)
+        {
+            actors.add(new Item(getEmptyLocation(), Item.Type.TELEPORTER));
+        }
     }
 
     private void addExit()
