@@ -40,6 +40,17 @@ public abstract class Actor
         this.y = y;
     }
 
+    public Location getLocation()
+    {
+        return new Location(x,y);
+    }
+
+    public void setLocation(Location loc)
+    {
+        setX(loc.getX());
+        setY(loc.getY());
+    }
+
     public boolean isCollidedWith(Actor actor)
     {
         int leftX = this.getX(), rightX = leftX + size;
