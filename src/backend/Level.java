@@ -15,19 +15,23 @@ public class Level
     {
         tiles = new Tile[height][width];
         
-        for(int i=0; i<height; i++)
+        generateRandomLevel();
+        
+        actors = new ArrayList<>();
+    }
+    
+    private void generateRandomLevel() {
+        for(int i=0; i<getHeight(); i++)
         {
-            for(int j=0; j<width; j++)
+            for(int j=0; j<getWidth(); j++)
             {
                 //TEMP - fills the level with floor tiles surrounded by wall
-                if(i == 0 || j == 0 || i == height-1 || j == width-1) 
+                if(i == 0 || j == 0 || i == getHeight()-1 || j == getWidth()-1) 
                     tiles[i][j] = new Tile(Tile.Type.WALL);
                 else
                     tiles[i][j] = new Tile(Tile.Type.FLOOR);
             }
         }
-        
-        actors = new ArrayList<>();
     }
     
     public ArrayList<Actor> getActors()
