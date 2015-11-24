@@ -9,7 +9,7 @@ public class Player extends Mob
 {
     public final String name;
 
-    private final static int INITIAL_MOVE_SPEED = 1;
+    private final static int INITIAL_MOVE_SPEED = 2;
 
     public Player(Location loc, String name)
     {

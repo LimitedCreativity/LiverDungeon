@@ -3,10 +3,7 @@ package frontend;
 import backend.Level;
 import backend.Stats;
 import backend.Tile;
-import backend.actors.Actor;
-import backend.actors.Item;
-import backend.actors.Mob;
-import backend.actors.Player;
+import backend.actors.*;
 import backend.interfaces.Display;
 
 import javax.imageio.ImageIO;
@@ -100,6 +97,14 @@ public class Frame extends JFrame implements Display
 
         if(a instanceof Player)
             filepath += "player.png";
+        else if(a instanceof Enemy)
+        {
+            Enemy e = (Enemy) a;
+            filepath += ENEMY_DIR;
+
+            if(e.rank == Enemy.Rank.GRUNT)
+                filepath += "grunt.png";
+        }
         else if(a instanceof Item)
         {
             Item i = (Item) a;
@@ -111,7 +116,7 @@ public class Frame extends JFrame implements Display
                 filepath += "gold.png";
         }
         else
-            filepath += "unknown.png";
+            filepath += "missing.png";
 
         BufferedImage image = getImage(filepath);
 

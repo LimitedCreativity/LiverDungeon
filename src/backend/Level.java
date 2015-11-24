@@ -1,6 +1,7 @@
 package backend;
 
 import backend.actors.Actor;
+import backend.actors.Enemy;
 import backend.actors.Item;
 import backend.actors.Player;
 
@@ -55,6 +56,7 @@ public class Level
 
         scatterGold();
         addPlayer();
+        addEnemies();
         addExit();
     }
     
@@ -84,6 +86,13 @@ public class Level
     private void addPlayer()
     {
         actors.add(new Player(getEmptyLocation(), "Player"));
+    }
+
+    private void addEnemies() {
+        int numEnemies = this.getWidth()*this.getHeight()/200;
+
+        for(int i = 0; i < numEnemies; i++)
+            actors.add(new Enemy(getEmptyLocation()));
     }
 
     private void addExit()
@@ -178,8 +187,8 @@ public class Level
 
     public boolean notInWall(int x, int y)
     {
-        int leftX = x, rightX = x + Tile.SIZE - 1;
-        int topY = y, bottomY = y + Tile.SIZE - 1;
+        int leftX = x+1, rightX = x + Tile.SIZE - 1;
+        int topY = y+1, bottomY = y + Tile.SIZE - 1;
 
         return !(getTile(leftX/Tile.SIZE,topY/Tile.SIZE).type == Tile.Type.WALL ||
                 getTile(leftX/Tile.SIZE,bottomY/Tile.SIZE).type == Tile.Type.WALL ||

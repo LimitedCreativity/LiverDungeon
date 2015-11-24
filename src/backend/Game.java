@@ -1,6 +1,7 @@
 package backend;
 
 import backend.actors.Actor;
+import backend.actors.Enemy;
 import backend.actors.Item;
 import backend.actors.Player;
 import backend.interfaces.*;
@@ -115,6 +116,16 @@ public class Game
         {
             world.nextLevel();
             this.initLevel();
+        }
+
+        //  Move enemies
+        for(Actor a : world.getActors())
+        {
+            if(a instanceof Enemy)
+            {
+                Enemy e = (Enemy) a;
+                e.move(world.getCurrentLevel(),world.getPlayer());
+            }
         }
 
     }
