@@ -5,11 +5,11 @@ package backend.actors;
  */
 public class Player extends Mob
 {
-    public final String NAME;
+    public final String name;
     
     public Player(int x, int y, String name)
     {
         super(x, y);
-        NAME = name;
+        this.name = name;
     }
 }

@@ -5,12 +5,12 @@ package backend.actors;
  */
 public class Item extends Actor
 {
-    public final Type TYPE;
+    public final Type type;
     
     public Item(int x, int y, Type type)
     {
         super(x, y);
-        TYPE = type;
+        this.type = type;
     }
 
     

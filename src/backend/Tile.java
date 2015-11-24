@@ -7,11 +7,11 @@ public class Tile
 {
     public static final int SIZE = 25;
     
-    public final Type TYPE;
+    public final Type type;
     
     public Tile(Type type)
     {
-        TYPE = type;
+        this.type = type;
     }
     
     
