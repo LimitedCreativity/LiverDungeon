@@ -1,7 +1,6 @@
 package backend;
 
-import backend.interfaces.Display;
-import backend.interfaces.Input;
+import backend.interfaces.*;
 
 /**
  * Created by ryan on 11/23/15.
@@ -15,5 +14,20 @@ public class Game
     {
         this.display = display;
         this.input = input;
+    }
+
+    public void start()
+    {
+
+    }
+
+    public void step()
+    {
+        //  input
+
+        //  logic
+
+        //  output
+
     }
 }

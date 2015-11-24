@@ -5,4 +5,5 @@ package backend;
  */
 public class Tile
 {
+    public static final int SIZE = 25;
 }

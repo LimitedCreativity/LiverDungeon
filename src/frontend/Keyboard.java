@@ -1,5 +1,6 @@
 package frontend;
 
+import backend.CommandState;
 import backend.interfaces.Input;
 
 /**
@@ -7,4 +8,9 @@ import backend.interfaces.Input;
  */
 public class Keyboard implements Input
 {
+    @Override
+    public CommandState getPlayerCommandState()
+    {
+        return null;
+    }
 }
