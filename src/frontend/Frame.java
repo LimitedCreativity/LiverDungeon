@@ -52,6 +52,7 @@ public class Frame extends JFrame implements Display
     private void initFrame(Keyboard keyboard)
     {
         this.setTitle(FRAME_TITLE);
+        this.setIconImage(getImage("img/logo.png"));
         this.setResizable(false);
         this.setUndecorated(FRAME_UNDECORATED);
         this.setLayout(new FlowLayout());
