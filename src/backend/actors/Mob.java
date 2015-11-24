@@ -6,4 +6,9 @@ package backend.actors;
 public abstract class Mob extends Actor
 {
 
+    public Mob(int x, int y)
+    {
+        super(x, y);
+    }
+
 }
