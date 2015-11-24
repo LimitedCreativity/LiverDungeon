@@ -7,4 +7,8 @@ import backend.interfaces.Display;
  */
 public class Frame implements Display
 {
+    public Frame(Keyboard keyboard)
+    {
+
+    }
 }
