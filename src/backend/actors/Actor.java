@@ -48,12 +48,12 @@ public abstract class Actor
         int actorLeftX = actor.getX(), actorRightX = actorLeftX + size;
         int actorTopY = actor.getY(), actorBottomY = actorTopY + size;
 
-        if( ( leftX > actorLeftX && leftX < actorRightX ) ||
-                (rightX < actorRightX && rightX > actorLeftX))
+        if( ( leftX >= actorLeftX && leftX < actorRightX ) ||
+                (rightX <= actorRightX && rightX > actorLeftX))
         {
-            if(topY > actorTopY && topY < actorBottomY)
+            if(topY >= actorTopY && topY < actorBottomY)
                 return true;
-            if(bottomY < actorBottomY && bottomY > actorTopY)
+            if(bottomY <= actorBottomY && bottomY > actorTopY)
                 return true;
         }
 

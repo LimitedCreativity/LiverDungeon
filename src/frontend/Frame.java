@@ -1,6 +1,7 @@
 package frontend;
 
 import backend.Level;
+import backend.Stats;
 import backend.Tile;
 import backend.actors.Actor;
 import backend.actors.Item;
@@ -139,7 +140,7 @@ public class Frame extends JFrame implements Display
     }
 
     @Override
-    public void initLevel(Level level)
+    public void initLevel(Stats stats, Level level)
     {
         initLevelImage(level.getWidth(), level.getHeight());
 
@@ -151,7 +152,13 @@ public class Frame extends JFrame implements Display
                 levelGraphics.drawImage(getImage(filepath),x*Tile.SIZE, y*Tile.SIZE, null);
             }
 
-        this.setTitle("Liver Dungeon: " + level.getPlayer().name);
+        updateStats(stats);
+    }
+
+    @Override
+    public void updateStats(Stats stats)
+    {
+        this.setTitle("Liver Dungeon: (Gold: " + stats.playerGold + ")");
     }
 
     @Override
@@ -193,6 +200,7 @@ public class Frame extends JFrame implements Display
 
         for(Actor a : actors)
         {
+
             if(a.getX() > leftX - Tile.SIZE && a.getX() < rightX &&
                     a.getY() > topY - Tile.SIZE && a.getY() < bottomY)
                 visibleActors.add(a);

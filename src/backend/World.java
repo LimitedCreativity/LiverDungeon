@@ -51,6 +51,11 @@ public class World
         return (currentLevel+1);
     }
 
+    public void remove(Actor a)
+    {
+        getCurrentLevel().remove(a);
+    }
+
     //  Should I have these here? I think they are good
     public Player getPlayer()
     {

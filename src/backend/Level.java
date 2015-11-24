@@ -16,7 +16,7 @@ public class Level
 
     public Level()
     {
-        int minSize = 16, maxSize = 16, diff = maxSize - minSize;
+        int minSize = 16, maxSize = 25, diff = maxSize - minSize;
         int randW = (int)(Math.random() * diff) + minSize;
         int randH = (int)(Math.random() * diff) + minSize;
 
@@ -169,5 +169,22 @@ public class Level
         Item item = this.getItem(x, y);
 
         return (tile.type == Tile.Type.FLOOR && item == null);
+    }
+
+    public void remove(Actor a)
+    {
+        this.actors.set(actors.indexOf(a),null);
+    }
+
+    public boolean notInWall(int x, int y)
+    {
+        int leftX = x, rightX = x + Tile.SIZE - 1;
+        int topY = y, bottomY = y + Tile.SIZE - 1;
+
+        return !(getTile(leftX/Tile.SIZE,topY/Tile.SIZE).type == Tile.Type.WALL ||
+                getTile(leftX/Tile.SIZE,bottomY/Tile.SIZE).type == Tile.Type.WALL ||
+                getTile(rightX/Tile.SIZE,bottomY/Tile.SIZE).type == Tile.Type.WALL ||
+                getTile(rightX/Tile.SIZE,topY/Tile.SIZE).type == Tile.Type.WALL);
+
     }
 }

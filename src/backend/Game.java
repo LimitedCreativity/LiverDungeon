@@ -1,6 +1,7 @@
 package backend;
 
 import backend.actors.Actor;
+import backend.actors.Item;
 import backend.actors.Player;
 import backend.interfaces.*;
 
@@ -17,6 +18,7 @@ public class Game
     private Input input;
 
     private World world;
+    private Stats stats;
 
     public Game(Display display, Input input)
     {
@@ -29,6 +31,7 @@ public class Game
     private void initGame()
     {
         world = new World();
+        stats = new Stats();
     }
 
     public void start()
@@ -88,6 +91,26 @@ public class Game
 
         world.getPlayer().move(horizontalDirection, verticalDirection, world.getCurrentLevel());
 
+
+        // Collect the gold!
+        ArrayList<Actor> goldToRemove = new ArrayList<Actor>();
+        for(Actor a : world.getActors())
+        {
+            if(a instanceof Item && ((Item)a).type == Item.Type.GOLD)
+            {
+                Item i = (Item)a;
+
+                if(world.getPlayer().isCollidedWith(i))
+                {
+                    stats.playerGold++;
+                    goldToRemove.add(a);
+                    display.updateStats(stats);
+                }
+            }
+        }
+        world.getActors().removeAll(goldToRemove);
+
+        //  Check for exit
         if(world.getPlayer().isCollidedWith(world.getExit()))
         {
             world.nextLevel();
@@ -98,6 +121,6 @@ public class Game
 
     private void initLevel()
     {
-        display.initLevel(world.getLevelNumber(), world.getCurrentLevel());
+        display.initLevel(stats, world.getCurrentLevel());
     }
 }

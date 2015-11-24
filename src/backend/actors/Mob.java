@@ -29,11 +29,11 @@ public abstract class Mob extends Actor
     {
         int possibleX = this.getX() + this.getMoveSpeed()*horizontalDirection;
         int possibleY = this.getY() + this.getMoveSpeed()*verticalDirection;
-        if (possibleX > -1 && possibleX < (level.getWidth()-1) * Tile.SIZE)
+        if (possibleX != x && possibleX > -1 && possibleX < (level.getWidth()-1) * Tile.SIZE && level.notInWall(possibleX,y))
         {
             this.setX(possibleX);
         }
-        if (possibleY > -1 && possibleY < (level.getHeight()-1)*Tile.SIZE)
+        if (possibleY != y && possibleY > -1 && possibleY < (level.getHeight()-1)*Tile.SIZE && level.notInWall(x,possibleY))
         {
             this.setY(possibleY);
         }
