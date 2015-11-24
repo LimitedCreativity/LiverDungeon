@@ -2,6 +2,7 @@ package backend.interfaces;
 
 import backend.Level;
 import backend.actors.Actor;
+import backend.actors.Player;
 
 import java.util.ArrayList;
 
@@ -11,5 +12,5 @@ import java.util.ArrayList;
 public interface Display
 {
     public void initLevel(Level level);
-    public void updateActors(ArrayList<Actor> actors);
+    public void updateActors(Player player, ArrayList<Actor> actors);
 }
