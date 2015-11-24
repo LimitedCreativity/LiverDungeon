@@ -5,15 +5,18 @@ import backend.Stats;
 import backend.Tile;
 import backend.actors.Actor;
 import backend.actors.Item;
+import backend.actors.Mob;
 import backend.actors.Player;
 import backend.interfaces.Display;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.Buffer;
 import java.util.ArrayList;
 
 /**
@@ -108,11 +111,13 @@ public class Frame extends JFrame implements Display
                 filepath += "gold.png";
         }
         else
-        {
             filepath += "unknown.png";
-        }
 
-        return getImage(filepath);
+        BufferedImage image = getImage(filepath);
+
+        if(a instanceof Mob)
+            return getRotatedImage(image, ((Mob)a).getRotation());
+        else return image;
 
     }
 
@@ -137,6 +142,17 @@ public class Frame extends JFrame implements Display
         g2.drawImage(src, 0, 0, finalw, finalh, null);
         g2.dispose();
         return resizedImg;
+    }
+
+    public BufferedImage getRotatedImage(BufferedImage image, double rotation)
+    {
+        BufferedImage newImage = new BufferedImage(image.getWidth(),image.getHeight(),BufferedImage.TYPE_INT_ARGB);
+        AffineTransform at = new AffineTransform();
+        at.translate(image.getWidth()/2, image.getHeight()/2);
+        at.rotate(rotation);
+        at.translate(-image.getWidth()/2, -image.getHeight()/2);
+        newImage.createGraphics().drawImage(image,at,null);
+        return newImage;
     }
 
     @Override

@@ -10,17 +10,31 @@ import backend.Tile;
 public abstract class Mob extends Actor
 {
     protected int moveSpeed;
+    protected double rotation;
+
+    public enum Direction {
+        S,
+        SW,
+        W,
+        NW,
+        N,
+        NE,
+        E,
+        SE
+    }
 
     public Mob(Location loc, int moveSpeed)
     {
         super(loc);
         this.moveSpeed = moveSpeed;
+        this.rotation = 0;
     }
 
     public Mob(int x, int y, int moveSpeed)
     {
         super(x, y);
         this.moveSpeed = moveSpeed;
+        this.rotation = 0;
     }
 
     public int getMoveSpeed(){return moveSpeed;}
@@ -37,5 +51,56 @@ public abstract class Mob extends Actor
         {
             this.setY(possibleY);
         }
+
+        //  Set rotation from move direction
+        setRotation(horizontalDirection, verticalDirection);
+    }
+
+    private void setRotation(int horizontal, int vertical)
+    {
+        Direction dir;
+
+        //  Moving west
+        if(horizontal == -1)
+        {
+            //  Moving north
+            if(vertical == -1)
+                dir = Direction.NW;
+            //  Moving south
+            else if(vertical == 1)
+                dir = Direction.SW;
+            else
+                dir = Direction.W;
+        }
+        //  Moving east
+        else if(horizontal == 1)
+        {
+            //  Moving north
+            if(vertical == -1)
+                dir = Direction.NE;
+            //  Moving south
+            else if(vertical == 1)
+                dir = Direction.SE;
+            else
+                dir = Direction.E;
+        }
+        //  Neither
+        else
+        {
+
+            //  Moving north
+            if(vertical == -1)
+                dir = Direction.N;
+            //  Moving south
+            else
+                dir = Direction.S;
+        }
+
+        rotation = dir.ordinal()*Math.PI/4;
+    }
+
+    public double getRotation()
+    {
+        return rotation;
     }
 }
