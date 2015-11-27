@@ -32,7 +32,7 @@ public class Frame extends JFrame implements Display
 
     //  Frame Constants
     private static final String FRAME_TITLE = "Liver Dungeon: Kill things";
-    private static final int SCALE = getScreenScale()-1;
+    private static final int SCALE = getScreenScale();
     private static final int FRAME_WIDTH = VIEW_WIDTH*Tile.SIZE*SCALE,
             FRAME_HEIGHT = VIEW_HEIGHT*Tile.SIZE*SCALE;
     private static final int FRAME_X = (SCREEN_WIDTH - FRAME_WIDTH) / 2,

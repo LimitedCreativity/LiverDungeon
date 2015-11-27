@@ -24,7 +24,7 @@ public class Item extends Actor
         this.type = type;
     }
     
-    public static enum Type {
+    public enum Type {
         GOLD,
         TELEPORTER,
         EXIT

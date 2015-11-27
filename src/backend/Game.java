@@ -14,7 +14,7 @@ import java.util.logging.*;
  */
 public class Game
 {
-    private static final long TIME_PER_UPDATE = 15L;
+    private static final long TIME_PER_UPDATE = 20L;
     private Display display;
     private Input input;
 
@@ -41,6 +41,7 @@ public class Game
 
         long previous = System.currentTimeMillis();
         long lag = 0;
+        boolean needRedraw = true;
         while(true)
         {
             long current = System.currentTimeMillis();
@@ -52,10 +53,14 @@ public class Game
             {
                 step();
                 lag -= TIME_PER_UPDATE;
-
+                needRedraw = true;
             }
 
-            display.updateActors(world.getPlayer(), world.getActors());
+            if(needRedraw)
+            {
+                needRedraw = false;
+                display.updateActors(world.getPlayer(), world.getActors());
+            }
         }
 
     }
