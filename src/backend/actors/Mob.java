@@ -37,6 +37,11 @@ public abstract class Mob extends Actor
         this.rotation = 0;
     }
 
+    public void setMoveSpeed(int moveSpeed)
+    {
+        this.moveSpeed = moveSpeed;
+    }
+
     public int getMoveSpeed(){return moveSpeed;}
 
     public void move(int horizontalDirection, int verticalDirection, Level level)

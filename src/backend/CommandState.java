@@ -7,6 +7,7 @@ public class CommandState
 {
     public boolean MOVE_UP, MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT;
     public boolean NEW_LEVEL;
+    public boolean OH_FUCK;
 
     public CommandState()
     {
@@ -15,5 +16,6 @@ public class CommandState
         MOVE_LEFT = false;
         MOVE_RIGHT = false;
         NEW_LEVEL = false;
+        OH_FUCK = false;
     }
 }

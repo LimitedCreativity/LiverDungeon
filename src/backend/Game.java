@@ -74,6 +74,12 @@ public class Game
             world.resetCurrentLevel();
             this.initLevel();
         }
+        if(commandState.OH_FUCK)
+        {
+            for(Actor a : world.getActors())
+                if(a instanceof Enemy)
+                    ((Enemy)a).setMoveSpeed(10);
+        }
 
         int horizontalDirection = 0, verticalDirection = 0;
 
