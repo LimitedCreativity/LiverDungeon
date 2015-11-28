@@ -53,7 +53,7 @@ public abstract class Actor
 
     public boolean isCollidedWith(Actor actor)
     {
-        int TOLERANCE = 10;
+        int TOLERANCE = 5;
 
         int leftX = this.getX() + TOLERANCE, rightX = this.getX() + size - TOLERANCE - 1;
         int topY = this.getY() + TOLERANCE, bottomY = this.getY() + size - TOLERANCE - 1;
