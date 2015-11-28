@@ -201,8 +201,10 @@ public class Level
 
     public boolean notInWall(int x, int y)
     {
-        int leftX = x+1, rightX = x + Tile.SIZE - 1;
-        int topY = y+1, bottomY = y + Tile.SIZE - 1;
+        int TOLERANCE = 5;
+
+        int leftX = x + TOLERANCE, rightX = x + Tile.SIZE-1-TOLERANCE;
+        int topY = y + TOLERANCE, bottomY = y + Tile.SIZE-1-TOLERANCE;
 
         return !(getTile(leftX/Tile.SIZE,topY/Tile.SIZE).type == Tile.Type.WALL ||
                 getTile(leftX/Tile.SIZE,bottomY/Tile.SIZE).type == Tile.Type.WALL ||

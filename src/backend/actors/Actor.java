@@ -53,18 +53,20 @@ public abstract class Actor
 
     public boolean isCollidedWith(Actor actor)
     {
-        int leftX = this.getX(), rightX = leftX + size;
-        int topY = this.getY(), bottomY = topY + size;
+        int TOLERANCE = 10;
 
-        int actorLeftX = actor.getX(), actorRightX = actorLeftX + size;
-        int actorTopY = actor.getY(), actorBottomY = actorTopY + size;
+        int leftX = this.getX() + TOLERANCE, rightX = this.getX() + size - TOLERANCE - 1;
+        int topY = this.getY() + TOLERANCE, bottomY = this.getY() + size - TOLERANCE - 1;
 
-        if( ( leftX >= actorLeftX && leftX < actorRightX ) ||
-                (rightX <= actorRightX && rightX > actorLeftX))
+        int actorLeftX = actor.getX(), actorRightX = actor.getX() + size - TOLERANCE - 1;
+        int actorTopY = actor.getY(), actorBottomY = actor.getY() + size - TOLERANCE - 1;
+
+        if( ( leftX >= actorLeftX && leftX <= actorRightX ) ||
+                (rightX <= actorRightX && rightX >= actorLeftX))
         {
-            if(topY >= actorTopY && topY < actorBottomY)
+            if(topY >= actorTopY && topY <= actorBottomY)
                 return true;
-            if(bottomY <= actorBottomY && bottomY > actorTopY)
+            if(bottomY <= actorBottomY && bottomY >= actorTopY)
                 return true;
         }
 

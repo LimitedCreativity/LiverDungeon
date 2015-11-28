@@ -58,7 +58,6 @@ public class Frame extends JFrame implements Display
         this.setUndecorated(FRAME_UNDECORATED);
         this.setLayout(null);
         this.setBounds(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-        this.setAlwaysOnTop(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.addKeyListener(keyboard);
         this.setVisible(true);
@@ -95,6 +94,40 @@ public class Frame extends JFrame implements Display
         }
 
         g.drawImage(scaledImage, FRAME_X, FRAME_Y, null);
+    }
+
+    private BufferedImage getRect(Actor a)
+    {
+        BufferedImage rect = new BufferedImage(Tile.SIZE, Tile.SIZE, BufferedImage.TYPE_INT_RGB);
+        Graphics g = rect.getGraphics();
+
+        if(a instanceof Player)
+            g.setColor(Color.blue);
+        else if(a instanceof Enemy)
+            g.setColor(Color.RED);
+        else if(a instanceof Item)
+        {
+            Item i = (Item)a;
+
+            switch (i.type)
+            {
+                case GOLD:
+                    g.setColor(Color.YELLOW);
+                    break;
+                case TELEPORTER:
+                    g.setColor(Color.CYAN);
+                    break;
+                case EXIT:
+                    g.setColor(Color.GREEN);
+                    break;
+            }
+        }
+        else
+            g.setColor(Color.PINK);
+
+        g.fillRect(0,0,rect.getWidth(),rect.getHeight());
+
+        return rect;
     }
 
     private BufferedImage getImage(Actor a)

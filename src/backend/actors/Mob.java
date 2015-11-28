@@ -41,19 +41,22 @@ public abstract class Mob extends Actor
 
     public void move(int horizontalDirection, int verticalDirection, Level level)
     {
-        int possibleX = this.getX() + this.getMoveSpeed()*horizontalDirection;
-        int possibleY = this.getY() + this.getMoveSpeed()*verticalDirection;
-        if (possibleX != x && possibleX > -1 && possibleX < (level.getWidth()-1) * Tile.SIZE && level.notInWall(possibleX,y))
-        {
-            this.setX(possibleX);
-        }
-        if (possibleY != y && possibleY > -1 && possibleY < (level.getHeight()-1)*Tile.SIZE && level.notInWall(x,possibleY))
-        {
-            this.setY(possibleY);
-        }
-
         //  Set rotation from move direction
         setRotation(horizontalDirection, verticalDirection);
+
+        for(int i = 0; i < this.getMoveSpeed(); i++)
+        {
+            int possibleX = this.getX() + horizontalDirection;
+            int possibleY = this.getY() + verticalDirection;
+            if (possibleX != x && possibleX > -1 && possibleX < (level.getWidth()) * Tile.SIZE && level.notInWall(possibleX, y))
+            {
+                this.setX(possibleX);
+            }
+            if (possibleY != y && possibleY > -1 && possibleY < (level.getHeight()) * Tile.SIZE && level.notInWall(x, possibleY))
+            {
+                this.setY(possibleY);
+            }
+        }
     }
 
     private void setRotation(int horizontal, int vertical)
