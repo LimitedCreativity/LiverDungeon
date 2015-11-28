@@ -56,8 +56,9 @@ public class Frame extends JFrame implements Display
         this.setIconImage(getImage("img/logo.png"));
         this.setResizable(false);
         this.setUndecorated(FRAME_UNDECORATED);
-        this.setLayout(new FlowLayout());
-        this.setBounds(FRAME_X, FRAME_Y, FRAME_WIDTH, FRAME_HEIGHT);
+        this.setLayout(null);
+        this.setBounds(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+        this.setAlwaysOnTop(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.addKeyListener(keyboard);
         this.setVisible(true);
@@ -73,7 +74,7 @@ public class Frame extends JFrame implements Display
     private void initViewImage()
     {
         //  Init the view image
-        viewImage = new BufferedImage(FRAME_WIDTH, FRAME_HEIGHT, BufferedImage.TYPE_INT_ARGB);
+        viewImage = new BufferedImage(VIEW_WIDTH*Tile.SIZE, VIEW_HEIGHT*Tile.SIZE, BufferedImage.TYPE_INT_ARGB);
         viewGraphics = viewImage.getGraphics();
     }
 
@@ -83,12 +84,17 @@ public class Frame extends JFrame implements Display
         levelGraphics = levelImage.getGraphics();
     }
 
+    //  TODO: Black background: frame is fullscreen, only update game area
     public void paint(Graphics g)
     {
         if(scaledImage == null)
-            return;
+        {
+            //  Draw black background
+            g.setColor(Color.black);
+            g.fillRect(0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
+        }
 
-        g.drawImage(scaledImage,0,0,null);
+        g.drawImage(scaledImage, FRAME_X, FRAME_Y, null);
     }
 
     private BufferedImage getImage(Actor a)
@@ -143,7 +149,7 @@ public class Frame extends JFrame implements Display
     private BufferedImage getScaledImage(BufferedImage src)
     {
         int finalh = src.getHeight()*SCALE, finalw = src.getWidth()*SCALE;
-        BufferedImage resizedImg = new BufferedImage(finalw, finalh, BufferedImage.TRANSLUCENT);
+        BufferedImage resizedImg = new BufferedImage(finalw, finalh, BufferedImage.TYPE_INT_RGB);
         Graphics2D g2 = resizedImg.createGraphics();
         g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
         g2.drawImage(src, 0, 0, finalw, finalh, null);
