@@ -97,29 +97,27 @@ public class Game
 
         world.getPlayer().move(horizontalDirection, verticalDirection, world.getCurrentLevel());
 
-
-        // Collect the gold!
+        boolean onTeleporter = false;
         ArrayList<Actor> goldToRemove = new ArrayList<Actor>();
         for(Actor a : world.getActors())
         {
-            if(a instanceof Item && ((Item)a).type == Item.Type.GOLD)
+            if(a instanceof Item)
             {
                 Item i = (Item)a;
-
-                if(world.getPlayer().isCollidedWith(i))
+                if(((Item)a).type == Item.Type.GOLD && world.getPlayer().isCollidedWith(i))
                 {
                     stats.playerGold++;
                     goldToRemove.add(a);
                     display.updateStats(stats);
                 }
+                else if ( ((Item)a).type == Item.Type.TELEPORTER &&  world.getPlayer().isCollidedWith(i))
+                {
+                    onTeleporter = true;
+                    i.interact(world.getCurrentLevel(),world.getPlayer());
+                    break;
+                }
             }
-        }
-        world.getActors().removeAll(goldToRemove);
-
-        //  Check for enemies
-        for(Actor a : world.getActors())
-        {
-            if(a instanceof Enemy)
+            else if(a instanceof Enemy)
             {
                 Enemy e = (Enemy)a;
 
@@ -129,25 +127,11 @@ public class Game
                     this.initLevel();
                     break;
                 }
+
+                e.move(world.getCurrentLevel(),world.getPlayer());
             }
         }
-
-        //  Check for teleporters
-        boolean onTeleporter = false;
-        for(Actor a : world.getActors())
-        {
-            if(a instanceof Item && ((Item)a).type == Item.Type.TELEPORTER)
-            {
-                Item i = (Item)a;
-
-                if(world.getPlayer().isCollidedWith(i))
-                {
-                    onTeleporter = true;
-                    i.interact(world.getCurrentLevel(),world.getPlayer());
-                    break;
-                }
-            }
-        }
+        world.getActors().removeAll(goldToRemove);
 
         if(!onTeleporter)
             world.getCurrentLevel().teleportersEnabled = true;
@@ -158,17 +142,6 @@ public class Game
             world.nextLevel();
             this.initLevel();
         }
-
-        //  Move enemies
-        for(Actor a : world.getActors())
-        {
-            if(a instanceof Enemy)
-            {
-                Enemy e = (Enemy) a;
-                e.move(world.getCurrentLevel(),world.getPlayer());
-            }
-        }
-
     }
 
     private void initLevel()
