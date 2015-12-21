@@ -146,6 +146,7 @@ public class Game
         if(world.getPlayer().isCollidedWith(world.getExit()))
         {
             world.nextLevel();
+            stats.levelsBeaten = stats.levelsBeaten + 1;
             this.initLevel();
         }
     }

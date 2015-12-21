@@ -56,7 +56,6 @@ public class World
         getCurrentLevel().remove(a);
     }
 
-    //  Should I have these here? I think they are good
     public Player getPlayer()
     {
         return getCurrentLevel().getPlayer();

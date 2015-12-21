@@ -44,16 +44,21 @@ public class Frame extends JFrame implements Display
     private BufferedImage levelImage, viewImage, scaledImage;
     private Graphics levelGraphics, viewGraphics;
 
+    //  Hud
+    private Hud hud;
+
 
     public Frame(Keyboard keyboard)
     {
         this.initFrame(keyboard);
+
+        this.hud = new Hud();
     }
 
     private void initFrame(Keyboard keyboard)
     {
         this.setTitle(FRAME_TITLE);
-        this.setIconImage(getImage("img/logo.png"));
+        this.setIconImage(getImage(IMG_DIR + "logo.png"));
         this.setResizable(false);
         this.setUndecorated(FRAME_UNDECORATED);
         this.setLayout(null);
@@ -83,7 +88,6 @@ public class Frame extends JFrame implements Display
         levelGraphics = levelImage.getGraphics();
     }
 
-    //  TODO: Black background: frame is fullscreen, only update game area
     public void paint(Graphics g)
     {
         if(scaledImage == null)
@@ -135,14 +139,14 @@ public class Frame extends JFrame implements Display
         String filepath = IMG_DIR;
 
         if(a instanceof Player)
-            filepath += "player.png";
+            filepath += "player";
         else if(a instanceof Enemy)
         {
             Enemy e = (Enemy) a;
             filepath += ENEMY_DIR;
 
             if(e.rank == Enemy.Rank.GRUNT)
-                filepath += "grunt.png";
+                filepath += "grunt";
         }
         else if(a instanceof Item)
         {
@@ -150,14 +154,16 @@ public class Frame extends JFrame implements Display
             filepath += ITEM_DIR;
 
             if(i.type == Item.Type.EXIT)
-                filepath += "exit.png";
+                filepath += "exit";
             else if(i.type == Item.Type.GOLD)
-                filepath += "gold.png";
+                filepath += "gold";
             else if(i.type == Item.Type.TELEPORTER)
-                filepath += "teleporter.png";
+                filepath += "teleporter";
         }
         else
-            filepath += "missing.png";
+            filepath += "missing";
+
+        filepath += ".png";
 
         BufferedImage image = getImage(filepath);
 
@@ -220,7 +226,8 @@ public class Frame extends JFrame implements Display
     @Override
     public void updateStats(Stats stats)
     {
-        this.setTitle("Liver Dungeon: (Gold: " + stats.playerGold + ")");
+        hud.setGold(stats.playerGold);
+        hud.setHealth(stats.levelsBeaten, 10);
     }
 
     @Override
@@ -275,6 +282,10 @@ public class Frame extends JFrame implements Display
         {
             viewGraphics.drawImage(getImage(a), a.getX() - leftX, a.getY() - topY, null);
         }
+
+        //  Draw hud over bottom row
+        int HUD_X = 0, HUD_Y=25*VIEW_HEIGHT-25;
+        viewGraphics.drawImage(hud.getHudImage(),HUD_X, HUD_Y, null);
 
         scaledImage = getScaledImage(viewImage);
 
