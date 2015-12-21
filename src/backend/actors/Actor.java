@@ -58,8 +58,8 @@ public abstract class Actor
         int leftX = this.getX() + TOLERANCE, rightX = this.getX() + size - TOLERANCE - 1;
         int topY = this.getY() + TOLERANCE, bottomY = this.getY() + size - TOLERANCE - 1;
 
-        int actorLeftX = actor.getX(), actorRightX = actor.getX() + size - TOLERANCE - 1;
-        int actorTopY = actor.getY(), actorBottomY = actor.getY() + size - TOLERANCE - 1;
+        int actorLeftX = actor.getX() + TOLERANCE, actorRightX = actor.getX() + size - TOLERANCE - 1;
+        int actorTopY = actor.getY() + TOLERANCE, actorBottomY = actor.getY() + size - TOLERANCE - 1;
 
         if( ( leftX >= actorLeftX && leftX <= actorRightX ) ||
                 (rightX <= actorRightX && rightX >= actorLeftX))
